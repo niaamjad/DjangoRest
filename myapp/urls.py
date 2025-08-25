@@ -1,13 +1,45 @@
+from rest.myapp import permission
 from .views import student_list , student_detail , student_create , student_update , student_delete , register_user , StudentScores
-from django.urls import path
+from django.urls import path, re_path
+from rest_framework_simplejwt.views import (TokenObtainPairView, TokenRefreshView,TokenVerifyView)
+from drf_yasg.views import get_schema_view
+from drf_yasg import openapi
+
+
+schema_view = get_schema_view(
+    openapi.Info(
+        title="Student API",
+        default_version="v1",
+        description="مستندات API مربوط به دانش‌آموزان و نمره‌ها",
+        terms_of_service="https://www.example.com/terms/",
+        contact=openapi.Contact(email="support@example.com"),
+        license=openapi.License(name="BSD License"),
+    ),
+    public=True,
+    permission_classes=(permission.AllowAny,),
+)
+
+
+
+
 
 urlpatterns = [
-    path('students/', student_list.as_view()),
-    path('students/<int:pk>/', student_detail),
-    path('students/create/', student_create),
-    path('students/update/<int:pk>/', student_update),
-    path('students/delete/<int:pk>/', student_delete),
-    path('register/', register_user),
-    path('score/', StudentScores)
+
+    path("api/token/", TokenObtainPairView.as_view()),
+    path("api/token/refresh/", TokenRefreshView.as_view()),
+    path("api/token/verify/", TokenVerifyView.as_view()),
+
+    path("students/", student_list.as_view()),
+    path("students/<int:pk>/", student_detail),
+    path("students/create/", student_create),
+    path("students/update/<int:pk>/", student_update),
+    path("students/delete/<int:pk>/", student_delete),
+    path("register/", register_user),
+    path("score/", StudentScores),
+
+
+re_path(r"^swagger(?P<format>\.json|\.yaml)$", schema_view.without_ui(cache_timeout=0), name="schema-json"),
+path("swagger/", schema_view.with_ui("swagger", cache_timeout=0), name="schema-swagger-ui"),
+path("redoc/", schema_view.with_ui("redoc", cache_timeout=0), name="schema-redoc"),
 
 ]

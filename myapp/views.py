@@ -5,12 +5,14 @@ from .serializer import ScoreSrializer, studentSerialize , UserSerialize
 from rest_framework.authtoken.models import Token
 from rest_framework.generics import ListCreateAPIView
 from .permission import IsSuperUserOrReadOnly
+from .pagination import StudentPagination
 
 
 class student_list(ListCreateAPIView):
     queryset = Student.objects.all()
     serializer_class = studentSerialize
     permission_classes = ((IsSuperUserOrReadOnly,))
+    pagination_class = StudentPagination
 
 
 

@@ -18,5 +18,5 @@ class UserSerialize(serializers.ModelSerializer):
 class ScoreSrializer(serializers.ModelSerializer):
     student_name = serializers.CharField(source = "student.Name") 
     class Meta:
-        model = Scores
+        model = Scores 
         fields = ['student_name','score']
