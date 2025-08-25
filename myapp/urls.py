@@ -1,4 +1,4 @@
-from .views import student_list , student_detail , student_create , student_update , student_delete , register_user
+from .views import student_list , student_detail , student_create , student_update , student_delete , register_user , StudentScores
 from django.urls import path
 
 urlpatterns = [
@@ -8,4 +8,6 @@ urlpatterns = [
     path('students/update/<int:pk>/', student_update),
     path('students/delete/<int:pk>/', student_delete),
     path('register/', register_user),
+    path('score/', StudentScores)
+
 ]

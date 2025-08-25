@@ -1,7 +1,7 @@
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from .models import Student
-from .serializer import studentSerialize , UserSerialize
+from .models import Scores, Student 
+from .serializer import ScoreSrializer, studentSerialize , UserSerialize 
 from rest_framework.authtoken.models import Token
 from rest_framework.generics import ListCreateAPIView
 from .permission import IsSuperUserOrReadOnly
@@ -56,5 +56,13 @@ def register_user(request):
             data['message'] = "Successfully registered a new user."
             data['token'] = Token.objects.get(user=user).key
         return Response(data)
-    
-    
+
+
+
+@api_view(['GET'])
+def StudentScores(requests):
+    score = Scores.objects.all()
+    score_serilizer = ScoreSrializer(score,many = True)
+    return Response(score_serilizer.data)
+
+
